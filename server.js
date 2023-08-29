@@ -1,11 +1,15 @@
 //0x348F704faEBF7Cf415dE593D8b786FcfF492F186
 const express = require('express');
 const cors = require('cors');
+require('dotenv').config();
+
 const ABI = require('./ABI.json');
 
 const { Web3 } = require('web3');
 
 const app = express();
+const PORT = process.env.PORT || 3001;
+
 app.use(cors());
 
 const web3 = new Web3("https://polygon-mumbai.g.alchemy.com/v2/w1GMOzJZxqiQwDCHF412EaSPw3Bx0_sK");
@@ -16,7 +20,7 @@ app.get("/user-all-tokens/:address", async (req, res) => {
     try {
         const address = req.params.address;
         const tokens = await contract.methods.userOwnedNFT(address).call();
-        console.log(tokens);
+
         if (tokens.length === 0) {
             res.status(200).json({ status: 200, message: "Tokens Not Exist" });
         } else {
@@ -42,7 +46,7 @@ app.get("/view-all-listed-nft", async (req, res) => {
                 const nftPrice = Number(price);
                 return { owner, id, uri, nftPrice }
             })
-            console.log(listedNFT);
+
             res.status(200).json({ status: 200, listedNFT, message: "NFTs List Exist" });
         }
     } catch (error) {
@@ -51,7 +55,7 @@ app.get("/view-all-listed-nft", async (req, res) => {
 
 });
 
-const PORT = process.env.PORT || 3001;
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 
