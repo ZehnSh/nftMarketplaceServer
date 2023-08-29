@@ -5,7 +5,7 @@ require('dotenv').config();
 
 const ABI = require('./ABI.json');
 
-const { Web3 } = require('web3');
+const Web3 = require('web3');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
